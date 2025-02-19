@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Una pregunta especial</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Estilos para los corazones del fondo */
+        .fondo-corazones {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .corazon-fondo {
+            position: absolute;
+            font-size: 25px;
+            animation: flotar-fondo 6s linear infinite;
+            opacity: 0.3;
+            color: #ff69b4;
+        }
+
+        @keyframes flotar-fondo {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            animation: flotar 2s ease-in-out infinite;
+        }
+
+        .botones {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .btn-si {
+            background: #ff69b4;
+            color: white;
+        }
+
+        .btn-no {
+            background: #808080;
+            color: white;
+        }
+
+        .imagen-hover {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .corazones {
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="fondo-corazones" id="fondo-corazones"></div>
+    <div class="container">
+        <img id="imagen-hover" class="imagen-hover" src="./img/img7.png" alt="">
+        <h1>Te aviso que desde hoy, te toca aguantarme como tu novio.💕</h1>
+        <h1>¿Aceptas?</h1>
+        <div class="botones">
+            <button class="btn btn-si" onmouseover="cambiarImagen('./img/si.webp')">Sí</button>
+            <button class="btn btn-no" onmouseover="cambiarImagen('./img/noo.webp')" onmouseout="cambiarImagen('./img/feliz.png')">No</button>
+        </div>
+    </div>
+
+    <script>
+        function cambiarImagen(imagen) {
+            const imgHover = document.getElementById('imagen-hover');
+            imgHover.src = imagen;
+        }
+
+        // Función para crear los corazones del fondo
+        function crearCorazonesFondo() {
+            const contenedor = document.getElementById('fondo-corazones');
+            const simbolosCorazon = ['❤', '💖', '💗', '💓', '💝', '💕'];
+            
+            // Crear 50 corazones iniciales
+            for (let i = 0; i < 50; i++) {
+                crearCorazonFondo(contenedor, simbolosCorazon);
+            }
+        }
+
+        function crearCorazonFondo(contenedor, simbolos) {
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon-fondo';
+            corazon.innerHTML = simbolos[Math.floor(Math.random() * simbolos.length)];
+            
+            // Posición aleatoria en X
+            corazon.style.left = Math.random() * 100 + 'vw';
+            // Tamaño aleatorio
+            corazon.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            // Duración aleatoria de la animación
+            corazon.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            // Retraso aleatorio
+            corazon.style.animationDelay = (Math.random() * 5) + 's';
+            
+            contenedor.appendChild(corazon);
+            
+            // Eliminar el corazón cuando termine la animación y crear uno nuevo
+            corazon.addEventListener('animationend', () => {
+                corazon.remove();
+                crearCorazonFondo(contenedor, simbolos);
+            });
+        }
+
+        // Iniciar los corazones del fondo cuando carga la página
+        window.addEventListener('load', crearCorazonesFondo);
+
+        // Acción cuando se hace clic en "Sí"
+        document.querySelector('.btn-si').addEventListener('click', () => {
+            alert('¡Me has hecho la persona más feliz! 💖');
+        });
+    </script>
+</body>
+</html>
